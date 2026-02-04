@@ -11,3 +11,9 @@ data/
 # editor
 .vscode/
 .DS_Store
+
+
+# MLflow local tracking
+mlruns/
+mlflow.db
+*.egg-info/
