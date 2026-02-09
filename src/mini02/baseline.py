@@ -6,7 +6,9 @@ from sklearn.linear_model import LinearRegression
 import mlflow
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from mini02.evaluate import evaluate_predictions
-import pandas as pd
+from pathlib import Path
+import joblib
+from mini02.features import add_ratio_features
 
 def main() -> None:
     mlflow.set_tracking_uri("file:./mlruns")
@@ -17,12 +19,6 @@ def main() -> None:
 
     X = data.data
     y = data.target
-
-    def add_ratio_features(X: pd.DataFrame) -> pd.DataFrame:
-        X = X.copy()
-        X['rooms_per_household'] = X['AveRooms'] / X['AveOccup']
-        X["bedrooms_ratio"] = X["AveBedrms"] / X["AveRooms"]
-        return X
     
     feature_engineering = FunctionTransformer(
         add_ratio_features,
@@ -46,6 +42,14 @@ def main() -> None:
     
     with mlflow.start_run(run_name='baseline-linreg'):
         model.fit(X_train, y_train)
+        artifacts_dir = Path('artifacts/mini02')
+        artifacts_dir.mkdir(parents=True, exist_ok=True)
+
+        model_path = artifacts_dir / 'model.joblib'
+        joblib.dump(model, model_path)
+
+        print("Saved model to:", model_path)
+
         preds = model.predict(X_test)
 
         metrics = evaluate_predictions(y_test, preds)
