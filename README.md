@@ -13,3 +13,33 @@ The dataset contains numeric features computed from digitized images of breast t
 - Use a reproducible pipeline
 - Track experiments with MLflow
 - Expose inference via API (later)
+
+## How to run
+
+### 1) Create virtual environment
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -U pip
+```
+
+### 2) Install dependencies
+```bash
+pip install -e .
+```
+
+### 3) Run baseline training
+```bash
+python -m mini01.baseline
+```
+
+### 4) Run tests
+```bash
+python -m pytest -q
+```
+
+## Results (baseline)
+- Model: `StandardScaler + LogisticRegression`
+- Split: train/test = 80/20, stratified
+- Metric: accuracy
+- Accuracy (test): ~0.982
