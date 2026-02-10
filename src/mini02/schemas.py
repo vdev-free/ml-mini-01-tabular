@@ -12,3 +12,6 @@ class HousingFeatures(BaseModel):
 
 class PredictResponse(BaseModel):
     prediction: float
+
+class PredictBatchResponse(BaseModel):
+    predictions: list[float]
