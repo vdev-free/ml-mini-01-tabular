@@ -43,3 +43,24 @@ python -m pytest -q
 - Split: train/test = 80/20, stratified
 - Metric: accuracy
 - Accuracy (test): ~0.982
+
+## Mini03 — Customer Segmentation (KMeans)
+
+**Goal:** segment customers by behavior (purchases, spend) to enable targeted marketing actions.
+
+**Features:** `purchases_30d`, `spend_30d`  
+**Model:** KMeans (k=3) with `StandardScaler`  
+**Metric:** Silhouette score ≈ **0.623** (higher is better)
+
+**Segments (mean values):**
+- **VIP:** ~18 purchases / ~1243 spend
+- **Regular:** ~9 purchases / ~365 spend
+- **Low:** ~2 purchases / ~75 spend
+
+**Business actions:**
+- VIP → loyalty program / early access / premium support
+- Regular → bundles / upsells / “free shipping over X”
+- Low → onboarding emails / first-purchase coupon / win-back campaigns
+
+Artifact: `artifacts/mini03/segments.png`
+

@@ -1,6 +1,26 @@
+import os
+import shutil
+import pytest
 import subprocess
 import time
 import requests
+
+pytestmark = pytest.mark.skipif(
+    os.getenv("RUN_DOCKER_TESTS") != "1",
+    reason="Docker integration test (set RUN_DOCKER_TESTS=1 to run)",
+)
+
+if shutil.which("docker") is None:
+    pytest.skip("Docker not installed", allow_module_level=True)
+
+    # Skip if image doesn't exist locally
+    check = subprocess.run(
+        ["docker", "image", "inspect", "mini02-regression"],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+    if check.returncode != 0:
+        pytest.skip("Docker image mini02-regression not found (build it first)")
 
 
 def wait_for_health(url: str, timeout_s: int = 20) -> None:
