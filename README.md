@@ -64,3 +64,9 @@ python -m pytest -q
 
 Artifact: `artifacts/mini03/segments.png`
 
+### Mini03 — Customer Segmentation Service
+
+- KMeans clustering (3 segments)
+- FastAPI service (`POST /segment`)
+- Next.js demo UI
+- Artifacts stored in `artifacts/mini03`
