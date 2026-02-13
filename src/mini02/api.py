@@ -1,8 +1,7 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from pathlib import Path
 import joblib
 import pandas as pd
-import numpy as np
 from mini02.schemas import HousingFeatures, PredictResponse, PredictBatchResponse
 
 app = FastAPI(title="mini02-regression")

@@ -3,7 +3,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
 import pandas as pd
 import mlflow
 from mini01.evaluate import evaluate_predictions

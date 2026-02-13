@@ -4,7 +4,6 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, FunctionTransformer
 from sklearn.linear_model import LinearRegression
 import mlflow
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from mini02.evaluate import evaluate_predictions
 from pathlib import Path
 import joblib
