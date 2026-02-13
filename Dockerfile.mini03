@@ -1,0 +1,23 @@
+FROM python:3.12-slim
+
+WORKDIR /app
+
+# 1) Скопіювали метадані
+COPY pyproject.toml ./
+
+# 2) Скопіювали код, бо pip install . його потребує (src-layout)
+COPY src ./src
+
+# 3) Ставимо залежності і сам пакет
+RUN pip install --no-cache-dir -U pip \
+    && pip install --no-cache-dir .
+
+# 4) щоб імпорти працювали
+ENV PYTHONPATH=/app/src
+
+# 5) генеруємо артефакти всередині образу
+RUN python -m mini03.train
+
+EXPOSE 8003
+CMD ["uvicorn", "mini03.api:app", "--host", "0.0.0.0", "--port", "8003"]
+
