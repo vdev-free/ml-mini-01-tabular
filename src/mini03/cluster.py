@@ -12,4 +12,4 @@ def fit_kmeans(
     labels = model.fit_predict(scaled_df)
 
     return model, pd.Series(labels, name='cluster')
-
+    
