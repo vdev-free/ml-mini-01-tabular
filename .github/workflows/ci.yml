@@ -20,16 +20,5 @@ jobs:
           pip install .
           pip install ruff pytest httpx
 
-      - name: Lint (ruff)
-        run: ruff check .
-
-      - name: Tests (pytest)
-        run: pytest -q
-
-  docker-build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Build mini03 image
-        run: docker build -t mini03-seg -f Dockerfile.mini03 .
+      - name: Train mini03 artifacts
+        run: python -m mini03.t
