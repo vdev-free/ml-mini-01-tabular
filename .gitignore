@@ -17,3 +17,14 @@ data/
 mlruns/
 mlflow.db
 *.egg-info/
+
+# ruff cache
+.ruff_cache/
+
+# node (Next.js UI)
+apps/mini03-ui/node_modules/
+apps/mini03-ui/.next/
+apps/mini03-ui/out/
+apps/mini03-ui/.turbo/
+apps/mini03-ui/.env.local
+
