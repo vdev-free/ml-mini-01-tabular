@@ -1,4 +1,5 @@
 # ml-mini-01-tabular
+![CI](https://github.com/vdev-free/ml-mini-01-tabular/actions/workflows/ci.yml/badge.svg)
 
 Production-style mini-projects for tabular ML: training + evaluation + FastAPI inference + Docker + CI.
 
@@ -142,3 +143,21 @@ GitHub Actions runs:
 - ruff
 - pytest
 - docker build
+
+---
+
+## Project Structure
+
+```
+.
+├── src/
+│   ├── mini01/        # Binary classification (LogReg baseline)
+│   ├── mini02/        # Extended training / API
+│   └── mini03/        # Customer segmentation (KMeans + FastAPI)
+├── apps/
+│   └── mini03-ui/     # Next.js demo UI
+├── tests/             # Unit & smoke tests
+├── artifacts/         # Saved models / plots (not tracked in git)
+├── Dockerfile.mini03  # Docker image for segmentation API
+└── .github/workflows  # CI (lint + test + docker build)
+```
