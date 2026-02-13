@@ -21,4 +21,4 @@ jobs:
           pip install ruff pytest httpx
 
       - name: Train mini03 artifacts
-        run: python -m mini03.t
+        run: python -m mini03.train
