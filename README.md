@@ -1,72 +1,144 @@
+# ml-mini-01-tabular
+
+Production-style mini-projects for tabular ML: training + evaluation + FastAPI inference + Docker + CI.
+
+---
+
 # Mini-project 01 — Tabular Classification
 
 ## Goal
-Build a small production-style ML project for binary classification on tabular data.
-The goal is to predict whether a tumor is malignant or benign.
+Binary classification on tabular data (Breast Cancer Wisconsin dataset).
 
 ## Dataset
-We use the Breast Cancer Wisconsin (Diagnostic) dataset from scikit-learn.
-The dataset contains numeric features computed from digitized images of breast tissue.
+Breast Cancer Wisconsin (Diagnostic) from scikit-learn.
 
 ## Scope
-- Train a baseline classification model
-- Use a reproducible pipeline
-- Track experiments with MLflow
-- Expose inference via API (later)
+- Baseline model
+- Reproducible pipeline
+- MLflow tracking
 
-## How to run
+## Run locally
 
-### 1) Create virtual environment
+### 1) Create venv
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -U pip
 ```
 
-### 2) Install dependencies
+### 2) Install project
 ```bash
 pip install -e .
 ```
 
-### 3) Run baseline training
+### 3) Train baseline
 ```bash
 python -m mini01.baseline
 ```
 
 ### 4) Run tests
 ```bash
-python -m pytest -q
+pytest -q
 ```
 
-## Results (baseline)
-- Model: `StandardScaler + LogisticRegression`
-- Split: train/test = 80/20, stratified
-- Metric: accuracy
-- Accuracy (test): ~0.982
+## Baseline Results
+- Model: StandardScaler + LogisticRegression
+- Split: 80/20 stratified
+- Metric: Accuracy
+- Test Accuracy: ~0.982
 
-## Mini03 — Customer Segmentation (KMeans)
+---
 
-**Goal:** segment customers by behavior (purchases, spend) to enable targeted marketing actions.
+# Mini03 — Customer Segmentation (KMeans)
 
-**Features:** `purchases_30d`, `spend_30d`  
-**Model:** KMeans (k=3) with `StandardScaler`  
-**Metric:** Silhouette score ≈ **0.623** (higher is better)
+## Goal
+Segment customers by behavior (purchases, spend) for marketing actions.
 
-**Segments (mean values):**
-- **VIP:** ~18 purchases / ~1243 spend
-- **Regular:** ~9 purchases / ~365 spend
-- **Low:** ~2 purchases / ~75 spend
+## Model
+- Features: `purchases_30d`, `spend_30d`
+- Pipeline: StandardScaler + KMeans (k=3)
+- Silhouette score ≈ 0.623
 
-**Business actions:**
-- VIP → loyalty program / early access / premium support
-- Regular → bundles / upsells / “free shipping over X”
-- Low → onboarding emails / first-purchase coupon / win-back campaigns
+## Segments
+- VIP → high purchases & spend
+- Regular → medium activity
+- Low → low activity
 
-Artifact: `artifacts/mini03/segments.png`
+## Visualization
+![Customer segments](docs/screenshots/segments.png)
 
-### Mini03 — Customer Segmentation Service
+---
 
-- KMeans clustering (3 segments)
-- FastAPI service (`POST /segment`)
-- Next.js demo UI
-- Artifacts stored in `artifacts/mini03`
+# Mini03 — FastAPI Service
+
+## Endpoints
+- `GET /health`
+- `POST /segment`
+
+## Run locally
+
+### Generate artifacts
+```bash
+python -m mini03.train
+```
+
+### Start API
+```bash
+uvicorn mini03.api:app --host 0.0.0.0 --port 8003
+```
+
+Open:
+- http://localhost:8003/health
+- http://localhost:8003/docs
+
+### Example request
+```bash
+curl -X POST http://localhost:8003/segment \
+  -H "Content-Type: application/json" \
+  -d '{"purchases_30d": 18, "spend_30d": 1200}'
+```
+
+---
+
+# Run with Docker
+
+```bash
+docker build -t mini03-seg -f Dockerfile.mini03 .
+docker run --rm -p 8003:8003 mini03-seg
+```
+
+---
+
+# Mini03 UI (Next.js)
+
+```bash
+cd apps/mini03-ui
+npm install
+npm run dev
+```
+
+Open:
+http://localhost:3000
+
+---
+
+# Development
+
+### Lint
+```bash
+ruff check .
+```
+
+### Tests
+```bash
+pytest -q
+```
+
+---
+
+# CI
+
+GitHub Actions runs:
+- ruff
+- pytest
+- docker build
